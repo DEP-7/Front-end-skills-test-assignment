@@ -7,7 +7,7 @@ ECMAScript, TypeScript, DOM, ParcelJS, etc.
 
 * Clone the project first.
 `git clone https://github.com/Direct-Entry-Program/front-end-skills-test-assignment.git`
-* Run the `npm install` to install all required dependencies.
+* Run the `npm install` to install all required dependencies, make sure to add parceljs as well.
 * Edit the `package.json` file to add necessary build scripts
 * That is it, you are good to go! 😉
 
@@ -34,7 +34,7 @@ ECMAScript, TypeScript, DOM, ParcelJS, etc.
 * The table related guidelines,
     1. First and last columns' content should be aligned to center.
     2. The last column of every record should contain the [trash icon](img/trash.png) which is used to remove the record.
-        * The original trash icons are very large, so you need to resize them to 32x32 via Scss
+        * The original trash icons are very large, so you need to resize them to 32x32 via CSS
     3. When hovering on a last column data, the trash icon should be changed from [trash icon](img/trash.png) to [trash hover icon](img/trash-hover.png).
     4. When the user clicks on a trash icon, a message should be appeared asking to confirm the deletion. Only upon the confirmation, the record should be removed, otherwise nothing will happen.
     5. If the user selects a record, it should be visible to the user (either by changing the background color or border color of the row)
@@ -49,7 +49,7 @@ ECMAScript, TypeScript, DOM, ParcelJS, etc.
 
 Of course. You may add as much as code you want or reposition code fragments accordingly, but you are not allowed to remove any elements of the default HTML structrure of the index.html
 
-**Is it okay to change the default style.scss file as per my wish?**
+**Is it okay to change the default style.css file as per my wish?**
 
 Feel free ma boys and girls. This is all yours.
 
