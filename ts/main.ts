@@ -1,3 +1,7 @@
 import $ from 'jquery';
 
-console.log("working");
+console.log("working ");
+
+$(()=>{
+    $('#txt-id').trigger('focus');
+})
