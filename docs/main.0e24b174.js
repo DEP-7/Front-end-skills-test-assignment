@@ -11223,7 +11223,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
-});
+}); // @ts-ignore
 
 var jquery_1 = __importDefault(require("jquery"));
 
@@ -11255,8 +11255,19 @@ var jquery_1 = __importDefault(require("jquery"));
 
   var rowHtml = "\n        <tr>\n            <td>" + id + "</td>\n            <td>" + name + "</td>\n            <td>" + address + "</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
-  (0, jquery_1.default)('#tbl-customers tbody tr').length > 0 ? (0, jquery_1.default)('#tbl-customers tfoot').hide() : (0, jquery_1.default)('#tbl-customers tfoot').show();
+  showOrHideTfoot();
+  (0, jquery_1.default)('.trash').off('click');
+  (0, jquery_1.default)('.trash').on('click', function (eventData) {
+    if (confirm('Are you sure to delete')) {
+      (0, jquery_1.default)(eventData.target).parents('tr').remove();
+      showOrHideTfoot();
+    }
+  });
 });
+
+function showOrHideTfoot() {
+  (0, jquery_1.default)('#tbl-customers tbody tr').length > 0 ? (0, jquery_1.default)('#tbl-customers tfoot').hide() : (0, jquery_1.default)('#tbl-customers tfoot').show();
+}
 },{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
