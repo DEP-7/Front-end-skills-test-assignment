@@ -11234,19 +11234,27 @@ var jquery_1 = __importDefault(require("jquery"));
   var id = (0, jquery_1.default)('#txt-id').val();
   var name = (0, jquery_1.default)('#txt-name').val();
   var address = (0, jquery_1.default)('#txt-address').val();
-  (0, jquery_1.default)('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
+  var valid = true; // $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
+  //
+  // if (!/[^\s]{3,}$/.test(address.trim())){
+  //     $('#txt-address').trigger('select').parent().addClass('invalid');
+  //     valid = false;
+  // }
+  //
+  // if (!/^[A-Za-z .]{3,}$/.test(name.trim())){
+  //     $('#txt-name').trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+  //     valid = false;
+  // }
+  //
+  // if (!/^C\d{3}$/.test(id.trim())){
+  //     $('#txt-id').trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+  //     valid = false;
+  // }
+  //
+  // if (!valid) return;
 
-  if (!/[^\s]{3,}$/.test(address.trim())) {
-    (0, jquery_1.default)('#txt-address').trigger('select').parent().addClass('invalid');
-  }
-
-  if (!/^[A-Za-z .]{3,}$/.test(name.trim())) {
-    (0, jquery_1.default)('#txt-name').trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-  }
-
-  if (!/^C\d{3}$/.test(id.trim())) {
-    (0, jquery_1.default)('#txt-id').trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-  }
+  var rowHtml = "\n        <tr>\n            <td>" + id + "</td>\n            <td>" + name + "</td>\n            <td>" + address + "</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
+  (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
 });
 },{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
