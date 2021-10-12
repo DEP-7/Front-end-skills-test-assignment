@@ -11227,9 +11227,26 @@ Object.defineProperty(exports, "__esModule", {
 
 var jquery_1 = __importDefault(require("jquery"));
 
-console.log("working ");
 (0, jquery_1.default)(function () {
   (0, jquery_1.default)('#txt-id').trigger('focus');
+});
+(0, jquery_1.default)('#btn-save').on('click', function () {
+  var id = (0, jquery_1.default)('#txt-id').val();
+  var name = (0, jquery_1.default)('#txt-name').val();
+  var address = (0, jquery_1.default)('#txt-address').val();
+  (0, jquery_1.default)('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
+
+  if (!/[^\s]{3,}$/.test(address.trim())) {
+    (0, jquery_1.default)('#txt-address').trigger('select').parent().addClass('invalid');
+  }
+
+  if (!/^[A-Za-z .]{3,}$/.test(name.trim())) {
+    (0, jquery_1.default)('#txt-name').trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+  }
+
+  if (!/^C\d{3}$/.test(id.trim())) {
+    (0, jquery_1.default)('#txt-id').trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+  }
 });
 },{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -11259,7 +11276,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41637" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44761" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
