@@ -1,7 +1,7 @@
 // @ts-ignore
 import $ from 'jquery';
 
-const pageSize = calculatePageSize();
+let pageSize = calculatePageSize();
 let pages: number = 1;
 let selectedPage: number = 1;
 
@@ -69,7 +69,7 @@ $('#btn-save').on('click', (eventData) => {
     showOrHideTfoot();
     showOrHidePagination();
 
-    if(($('#tbl-customers tbody tr').length - 1) % pages === 0){
+    if(($('#tbl-customers tbody tr').length - 1) % pageSize === 0){
         initPagination();
     }
 
@@ -121,6 +121,14 @@ $('#btn-clear').on('click', () => {
     $('#txt-id').attr('disabled', false).trigger('focus');
 });
 
+/* Window resize event listener */
+$(window).on('resize', () => {
+    pageSize = calculatePageSize();
+    initPagination();
+    navigateToPage(1);
+    showOrHidePagination();
+});
+
 /* Utility functions */
 function existCustomer(id: string): boolean {
     let result: boolean = false;
@@ -147,7 +155,7 @@ function calculatePageSize(){
     const tbl = $('#tbl-customers');
     const tfoot = $('#tbl-customers tfoot');
     const rowHtml = `
-        <tr>
+        <tr class="dummy-data">
             <td>C001</td>
             <td>Dhanushka</td>
             <td>Matara</td>
@@ -163,16 +171,18 @@ function calculatePageSize(){
     nav.addClass('d-none');
     tfoot.hide();
 
+    tbl.find('tr').hide();
+
     while (true) {
 
         tbl.find('tbody').append(rowHtml);
         const bottom = tbl.outerHeight(true) + tbl.offset().top;
-
         if (bottom >= top) {
-            const pageSize = tbl.find('tbody tr').length - 1;
+            const pageSize = tbl.find('tbody tr.dummy-data').length - 1;
 
-            tbl.find('tbody tr').remove();
-            tfoot.show();
+            tbl.find('tbody tr.dummy-data').remove();
+
+            if (tbl.find('tbody tr').length === 0) tfoot.show();
             return pageSize;
         }
     }

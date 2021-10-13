@@ -11279,7 +11279,7 @@ var selectedPage = 1;
   showOrHideTfoot();
   showOrHidePagination();
 
-  if (((0, jquery_1.default)('#tbl-customers tbody tr').length - 1) % pages === 0) {
+  if (((0, jquery_1.default)('#tbl-customers tbody tr').length - 1) % pageSize === 0) {
     initPagination();
   }
 
@@ -11327,6 +11327,14 @@ tbody.on('click', '.trash', function (eventData) {
   (0, jquery_1.default)('#tbl-customers tbody tr.selected').removeClass('selected');
   (0, jquery_1.default)('#txt-id').attr('disabled', false).trigger('focus');
 });
+/* Window resize event listener */
+
+(0, jquery_1.default)(window).on('resize', function () {
+  pageSize = calculatePageSize();
+  initPagination();
+  navigateToPage(1);
+  showOrHidePagination();
+});
 /* Utility functions */
 
 function existCustomer(id) {
@@ -11353,21 +11361,22 @@ function showOrHidePagination() {
 function calculatePageSize() {
   var tbl = (0, jquery_1.default)('#tbl-customers');
   var tfoot = (0, jquery_1.default)('#tbl-customers tfoot');
-  var rowHtml = "\n        <tr>\n            <td>C001</td>\n            <td>Dhanushka</td>\n            <td>Matara</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
+  var rowHtml = "\n        <tr class=\"dummy-data\">\n            <td>C001</td>\n            <td>Dhanushka</td>\n            <td>Matara</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   var nav = (0, jquery_1.default)('nav');
   nav.removeClass('d-none');
   var top = (0, jquery_1.default)(window).height() - ((0, jquery_1.default)('footer').height() + nav.outerHeight(true));
   nav.addClass('d-none');
   tfoot.hide();
+  tbl.find('tr').hide();
 
   while (true) {
     tbl.find('tbody').append(rowHtml);
     var bottom = tbl.outerHeight(true) + tbl.offset().top;
 
     if (bottom >= top) {
-      var pageSize_1 = tbl.find('tbody tr').length - 1;
-      tbl.find('tbody tr').remove();
-      tfoot.show();
+      var pageSize_1 = tbl.find('tbody tr.dummy-data').length - 1;
+      tbl.find('tbody tr.dummy-data').remove();
+      if (tbl.find('tbody tr').length === 0) tfoot.show();
       return pageSize_1;
     }
   }
