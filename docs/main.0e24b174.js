@@ -11228,6 +11228,7 @@ Object.defineProperty(exports, "__esModule", {
 var jquery_1 = __importDefault(require("jquery"));
 
 var pageSize = calculatePageSize();
+console.log(pageSize);
 (0, jquery_1.default)(function () {
   (0, jquery_1.default)('#txt-id').trigger('focus');
 });
@@ -11259,24 +11260,24 @@ var pageSize = calculatePageSize();
   // }
   //
   // if (!valid) return;
-
-  if (txtId.attr('disabled')) {
-    var selectedRow = (0, jquery_1.default)('#tbl-customers tbody tr.selected');
-    selectedRow.find('td:nth-child(2)').text(name);
-    selectedRow.find('td:nth-child(3)').text(address);
-    return;
-  }
-
-  if (existCustomer(id)) {
-    alert('Customer already exist');
-    txtId.trigger('select');
-    return;
-  }
+  // if (txtId.attr('disabled')) {
+  //     const selectedRow = $('#tbl-customers tbody tr.selected');
+  //
+  //     selectedRow.find('td:nth-child(2)').text(name);
+  //     selectedRow.find('td:nth-child(3)').text(address);
+  //     return;
+  // }
+  // if (existCustomer(id)) {
+  //     alert('Customer already exist');
+  //     txtId.trigger('select');
+  //     return;
+  // }
 
   var rowHtml = "\n        <tr>\n            <td>" + id + "</td>\n            <td>" + name + "</td>\n            <td>" + address + "</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
   showOrHideTfoot();
   showOrHidePagination();
+  initPagination();
   (0, jquery_1.default)('#btn-clear').trigger('click');
 });
 var tbody = (0, jquery_1.default)('#tbl-customers tbody');
@@ -11350,6 +11351,19 @@ function calculatePageSize() {
       return pageSize_1;
     }
   }
+}
+
+function initPagination() {
+  var totalRows = (0, jquery_1.default)('#tbl-customers tbody tr').length;
+  var pages = Math.ceil(totalRows / pageSize);
+  var paginationHtml = "\n                    <li class=\"page-item\">\n                        <a class=\"page-link\" href=\"#\">\n                            <i class=\"fas fa-backward\"></i>\n                        </a>\n                    </li>\n    ";
+
+  for (var i = 0; i < pages; i++) {
+    paginationHtml += "<li class=\"page-item\"><a class=\"page-link\" href=\"#\">" + (i + 1) + "</a></li>";
+  }
+
+  paginationHtml += "<li class=\"page-item\">\n                            <a class=\"page-link\" href=\"#\">\n                                <i class=\"fas fa-forward\"></i>\n                            </a>\n                        </li>";
+  (0, jquery_1.default)('.pagination').html(paginationHtml);
 }
 },{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];

@@ -2,6 +2,7 @@
 import $ from 'jquery';
 
 const pageSize = calculatePageSize();
+console.log(pageSize);
 $(()=>{
     $('#txt-id').trigger('focus');
 });
@@ -39,19 +40,19 @@ $('#btn-save').on('click', (eventData) => {
     //
     // if (!valid) return;
 
-    if (txtId.attr('disabled')) {
-        const selectedRow = $('#tbl-customers tbody tr.selected');
+    // if (txtId.attr('disabled')) {
+    //     const selectedRow = $('#tbl-customers tbody tr.selected');
+    //
+    //     selectedRow.find('td:nth-child(2)').text(name);
+    //     selectedRow.find('td:nth-child(3)').text(address);
+    //     return;
+    // }
 
-        selectedRow.find('td:nth-child(2)').text(name);
-        selectedRow.find('td:nth-child(3)').text(address);
-        return;
-    }
-
-    if (existCustomer(id)) {
-        alert('Customer already exist');
-        txtId.trigger('select');
-        return;
-    }
+    // if (existCustomer(id)) {
+    //     alert('Customer already exist');
+    //     txtId.trigger('select');
+    //     return;
+    // }
 
     const rowHtml = `
         <tr>
@@ -65,6 +66,7 @@ $('#btn-save').on('click', (eventData) => {
     $('#tbl-customers tbody').append(rowHtml);
     showOrHideTfoot();
     showOrHidePagination();
+    initPagination();
     $('#btn-clear').trigger('click');
 });
 
@@ -120,7 +122,7 @@ function showOrHideTfoot(){
 
 function showOrHidePagination(){
     const nav = $('nav');
-    $('#tbl-customers tbody tr').length > pageSize ? nav.removeClass('d-none') : nav.addClass('d-none');
+    ($('#tbl-customers tbody tr').length > pageSize)? nav.removeClass('d-none') : nav.addClass('d-none');
 }
 
 function calculatePageSize(){
@@ -138,10 +140,11 @@ function calculatePageSize(){
     const nav = $('nav');
     nav.removeClass('d-none');
 
-    const top = $(window).height() - ($('footer').height() + nav.outerHeight(true));
+    const top = $(window).height()! - ($('footer').height()! + nav.outerHeight(true)!);
 
     nav.addClass('d-none');
     tfoot.hide();
+
     while (true) {
 
         tbl.find('tbody').append(rowHtml);
@@ -155,4 +158,28 @@ function calculatePageSize(){
             return pageSize;
         }
     }
+}
+
+function initPagination(): void{
+    const totalRows = $('#tbl-customers tbody tr').length;
+    const pages = Math.ceil(totalRows / pageSize);
+    let paginationHtml = `
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            <i class="fas fa-backward"></i>
+                        </a>
+                    </li>
+    `;
+
+    for (let i = 0; i < pages; i++) {
+        paginationHtml += `<li class="page-item"><a class="page-link" href="#">${i+1}</a></li>`;
+    }
+
+    paginationHtml += `<li class="page-item">
+                            <a class="page-link" href="#">
+                                <i class="fas fa-forward"></i>
+                            </a>
+                        </li>`
+
+    $('.pagination').html(paginationHtml);
 }
