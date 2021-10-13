@@ -1,0 +1,17 @@
+/*!
+ *             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ *                     Version 2, December 2004
+ *
+ *  Copyright (C) 2020 IJSE
+ *
+ *  Everyone is permitted to copy and distribute verbatim or modified
+ *  copies of this license document, and changing it is allowed as long
+ *  as the name is changed.
+ *
+ *             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+ *    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ *
+ *   0. You just DO WHAT THE FUCK YOU WANT TO.
+ */@import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");*{font-family:Ubuntu,sans-serif}html{font-size:14px;height:100%}body{position:relative;min-height:100%}header{padding-top:20px;border-bottom:1px solid #d3d3d3}main{margin-top:50px}main .row>div:first-child{border-right:1px solid #d3d3d3}main h3{padding:10px;border-radius:10px;text-align:center;margin-bottom:20px;background-color:#fbb534}main #tbl-customers thead tr{background-color:#d3d3d3}main #tbl-customers th{border-bottom-color:#989898}main #tbl-customers td{vertical-align:middle}main #tbl-customers th:first-child{width:75px;text-align:center}main #tbl-customers th:last-child{position:relative;width:75px;text-align:center}.form-group small.invalid-text{display:none}.invalid{color:red!important}.invalid input{border:1px solid red!important;box-shadow:0 0 4px .2rem rgb(255 0 0/28%)!important}.invalid small.invalid-text{color:red!important;display:block}#tbl-customers tbody tr{cursor:pointer}#tbl-customers th:first-child,td:first-child,td:last-child,th:last-child{text-align:center}.trash{background-image:url(/trash.4406ba68.png)}.trash,.trash:hover{position:relative;margin:auto;width:32px;height:32px;background-size:contain}.trash:hover{background-image:url(/trash-hover.d252697b.png)}.selected{border:2px solid #005cbf}footer{text-align:center;position:absolute;bottom:0;left:0;right:0;padding:10px;border-top:1px solid #d3d3d3}@media (max-width:991px){footer{position:relative}}
+
+/*# sourceMappingURL=/style.a367e9c9.css.map */
