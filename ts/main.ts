@@ -5,10 +5,17 @@ $(()=>{
     $('#txt-id').trigger('focus');
 });
 
-$('#btn-save').on('click',()=> {
-    let id = $('#txt-id').val();
-    let name = $('#txt-name').val();
-    let address = $('#txt-address').val();
+$('#btn-save').on('click', (eventData) => {
+
+    eventData.preventDefault();
+
+    const txtId = $('#txt-id');
+    const txtName = $('#txt-name');
+    const txtAddress = $('#txt-address');
+
+    const id = txtId.val();
+    const name = txtName.val();
+    const address = txtAddress.val();
     let valid = true;
 
     // $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
@@ -40,23 +47,34 @@ $('#btn-save').on('click',()=> {
     `;
 
     $('#tbl-customers tbody').append(rowHtml);
+    txtId.val('');
     showOrHideTfoot();
 
     $('#tbl-customers tbody tr').off('click').on('click', function () {
+        const id = $(this).find('td:first-child').text();
+        const name = $(this).find('td:nth-child(2)').text();
+        const address = $(this).find('td:nth-child(3)').text();
+
+        txtId.val(id);
+        txtId.attr('disabled', true);
+        txtName.val(name);
+        txtAddress.val(address);
+
         $('#tbl-customers tbody tr').removeClass('selected');
         $(this).addClass('selected');
     });
 
 
-    $('.trash').off('click').on('click', (eventData) =>{
+    $('.trash').off('click').on('click', (eventData) => {
         if (confirm('Are you sure to delete')) {
-            $(eventData.target).parents('tr').fadeOut(500, function (){
+            $(eventData.target).parents('tr').fadeOut(500, function () {
                 $(this).remove();
                 showOrHideTfoot();
             });
         }
     });
 });
+
 
 function showOrHideTfoot(){
     const tfoot = $('#tbl-customers tfoot');
