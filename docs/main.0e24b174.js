@@ -11243,36 +11243,38 @@ var selectedPage = 1;
   var id = txtId.val().trim();
   var name = txtName.val().trim();
   var address = txtAddress.val().trim();
-  var valid = true; // $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
-  //
-  // if (!/[^\s]{3,}$/.test(address)){
-  //     txtAddress.trigger('select').parent().addClass('invalid');
-  //     valid = false;
-  // }
-  //
-  // if (!/^[A-Za-z .]{3,}$/.test(name)){
-  //     txtName.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-  //     valid = false;
-  // }
-  //
-  // if (!/^C\d{3}$/.test(id)){
-  //     txtId.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-  //     valid = false;
-  // }
-  //
-  // if (!valid) return;
-  // if (txtId.attr('disabled')) {
-  //     const selectedRow = $('#tbl-customers tbody tr.selected');
-  //
-  //     selectedRow.find('td:nth-child(2)').text(name);
-  //     selectedRow.find('td:nth-child(3)').text(address);
-  //     return;
-  // }
-  // if (existCustomer(id)) {
-  //     alert('Customer already exist');
-  //     txtId.trigger('select');
-  //     return;
-  // }
+  var valid = true;
+  (0, jquery_1.default)('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
+
+  if (!/[^\s]{3,}$/.test(address)) {
+    txtAddress.trigger('select').parent().addClass('invalid');
+    valid = false;
+  }
+
+  if (!/^[A-Za-z .]{3,}$/.test(name)) {
+    txtName.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+    valid = false;
+  }
+
+  if (!/^C\d{3}$/.test(id)) {
+    txtId.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+    valid = false;
+  }
+
+  if (!valid) return;
+
+  if (txtId.attr('disabled')) {
+    var selectedRow = (0, jquery_1.default)('#tbl-customers tbody tr.selected');
+    selectedRow.find('td:nth-child(2)').text(name);
+    selectedRow.find('td:nth-child(3)').text(address);
+    return;
+  }
+
+  if (existCustomer(id)) {
+    alert('Customer already exist');
+    txtId.trigger('select');
+    return;
+  }
 
   var rowHtml = "\n        <tr>\n            <td>" + id + "</td>\n            <td>" + name + "</td>\n            <td>" + address + "</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
@@ -11359,6 +11361,10 @@ function showOrHidePagination() {
 }
 
 function calculatePageSize() {
+  if ((0, jquery_1.default)(window).width() <= 992) {
+    return 7;
+  }
+
   var tbl = (0, jquery_1.default)('#tbl-customers');
   var tfoot = (0, jquery_1.default)('#tbl-customers tfoot');
   var rowHtml = "\n        <tr class=\"dummy-data\">\n            <td>C001</td>\n            <td>Dhanushka</td>\n            <td>Matara</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
@@ -11367,7 +11373,7 @@ function calculatePageSize() {
   var top = (0, jquery_1.default)(window).height() - ((0, jquery_1.default)('footer').height() + nav.outerHeight(true));
   nav.addClass('d-none');
   tfoot.hide();
-  tbl.find('tr').hide();
+  tbl.find('tbody tr').hide();
 
   while (true) {
     tbl.find('tbody').append(rowHtml);

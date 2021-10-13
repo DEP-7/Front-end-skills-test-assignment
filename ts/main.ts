@@ -23,38 +23,38 @@ $('#btn-save').on('click', (eventData) => {
     const address = txtAddress.val().trim();
     let valid = true;
 
-    // $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
-    //
-    // if (!/[^\s]{3,}$/.test(address)){
-    //     txtAddress.trigger('select').parent().addClass('invalid');
-    //     valid = false;
-    // }
-    //
-    // if (!/^[A-Za-z .]{3,}$/.test(name)){
-    //     txtName.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-    //     valid = false;
-    // }
-    //
-    // if (!/^C\d{3}$/.test(id)){
-    //     txtId.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-    //     valid = false;
-    // }
-    //
-    // if (!valid) return;
+    $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
 
-    // if (txtId.attr('disabled')) {
-    //     const selectedRow = $('#tbl-customers tbody tr.selected');
-    //
-    //     selectedRow.find('td:nth-child(2)').text(name);
-    //     selectedRow.find('td:nth-child(3)').text(address);
-    //     return;
-    // }
+    if (!/[^\s]{3,}$/.test(address)){
+        txtAddress.trigger('select').parent().addClass('invalid');
+        valid = false;
+    }
 
-    // if (existCustomer(id)) {
-    //     alert('Customer already exist');
-    //     txtId.trigger('select');
-    //     return;
-    // }
+    if (!/^[A-Za-z .]{3,}$/.test(name)){
+        txtName.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+        valid = false;
+    }
+
+    if (!/^C\d{3}$/.test(id)){
+        txtId.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+        valid = false;
+    }
+
+    if (!valid) return;
+
+    if (txtId.attr('disabled')) {
+        const selectedRow = $('#tbl-customers tbody tr.selected');
+
+        selectedRow.find('td:nth-child(2)').text(name);
+        selectedRow.find('td:nth-child(3)').text(address);
+        return;
+    }
+
+    if (existCustomer(id)) {
+        alert('Customer already exist');
+        txtId.trigger('select');
+        return;
+    }
 
     const rowHtml = `
         <tr>
@@ -152,6 +152,11 @@ function showOrHidePagination(){
 }
 
 function calculatePageSize(){
+
+    if ($(window).width() <= 992) {
+        return 7;
+    }
+
     const tbl = $('#tbl-customers');
     const tfoot = $('#tbl-customers tfoot');
     const rowHtml = `
@@ -171,7 +176,7 @@ function calculatePageSize(){
     nav.addClass('d-none');
     tfoot.hide();
 
-    tbl.find('tr').hide();
+    tbl.find('tbody tr').hide();
 
     while (true) {
 
