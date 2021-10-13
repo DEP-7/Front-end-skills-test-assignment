@@ -11256,17 +11256,19 @@ var jquery_1 = __importDefault(require("jquery"));
   var rowHtml = "\n        <tr>\n            <td>" + id + "</td>\n            <td>" + name + "</td>\n            <td>" + address + "</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
   showOrHideTfoot();
-  (0, jquery_1.default)('.trash').off('click');
-  (0, jquery_1.default)('.trash').on('click', function (eventData) {
+  (0, jquery_1.default)('.trash').off('click').on('click', function (eventData) {
     if (confirm('Are you sure to delete')) {
-      (0, jquery_1.default)(eventData.target).parents('tr').remove();
-      showOrHideTfoot();
+      (0, jquery_1.default)(eventData.target).parents('tr').fadeOut(500, function () {
+        (0, jquery_1.default)(this).remove();
+        showOrHideTfoot();
+      });
     }
   });
 });
 
 function showOrHideTfoot() {
-  (0, jquery_1.default)('#tbl-customers tbody tr').length > 0 ? (0, jquery_1.default)('#tbl-customers tfoot').hide() : (0, jquery_1.default)('#tbl-customers tfoot').show();
+  var tfoot = (0, jquery_1.default)('#tbl-customers tfoot');
+  (0, jquery_1.default)('#tbl-customers tbody tr').length > 0 ? tfoot.hide() : tfoot.show();
 }
 },{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
