@@ -42,6 +42,12 @@ $('#btn-save').on('click',()=> {
     $('#tbl-customers tbody').append(rowHtml);
     showOrHideTfoot();
 
+    $('#tbl-customers tbody tr').off('click').on('click', function () {
+        $('#tbl-customers tbody tr').removeClass('selected');
+        $(this).addClass('selected');
+    });
+
+
     $('.trash').off('click').on('click', (eventData) =>{
         if (confirm('Are you sure to delete')) {
             $(eventData.target).parents('tr').fadeOut(500, function (){

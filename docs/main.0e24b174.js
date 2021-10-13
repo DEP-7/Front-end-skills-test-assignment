@@ -11256,6 +11256,10 @@ var jquery_1 = __importDefault(require("jquery"));
   var rowHtml = "\n        <tr>\n            <td>" + id + "</td>\n            <td>" + name + "</td>\n            <td>" + address + "</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
   showOrHideTfoot();
+  (0, jquery_1.default)('#tbl-customers tbody tr').off('click').on('click', function () {
+    (0, jquery_1.default)('#tbl-customers tbody tr').removeClass('selected');
+    (0, jquery_1.default)(this).addClass('selected');
+  });
   (0, jquery_1.default)('.trash').off('click').on('click', function (eventData) {
     if (confirm('Are you sure to delete')) {
       (0, jquery_1.default)(eventData.target).parents('tr').fadeOut(500, function () {
