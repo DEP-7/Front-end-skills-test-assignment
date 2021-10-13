@@ -11230,6 +11230,8 @@ var jquery_1 = __importDefault(require("jquery"));
 (0, jquery_1.default)(function () {
   (0, jquery_1.default)('#txt-id').trigger('focus');
 });
+/* Add or update a row */
+
 (0, jquery_1.default)('#btn-save').on('click', function (eventData) {
   eventData.preventDefault();
   var txtId = (0, jquery_1.default)('#txt-id');
@@ -11275,26 +11277,34 @@ var jquery_1 = __importDefault(require("jquery"));
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
   showOrHideTfoot();
   (0, jquery_1.default)('#btn-clear').trigger('click');
-  (0, jquery_1.default)('#tbl-customers tbody tr').off('click').on('click', function () {
-    var id = (0, jquery_1.default)(this).find('td:first-child').text();
-    var name = (0, jquery_1.default)(this).find('td:nth-child(2)').text();
-    var address = (0, jquery_1.default)(this).find('td:nth-child(3)').text();
-    txtId.val(id);
-    txtId.attr('disabled', true);
-    txtName.val(name);
-    txtAddress.val(address);
-    (0, jquery_1.default)('#tbl-customers tbody tr').removeClass('selected');
-    (0, jquery_1.default)(this).addClass('selected');
-  });
-  (0, jquery_1.default)('.trash').off('click').on('click', function (eventData) {
-    if (confirm('Are you sure to delete')) {
-      (0, jquery_1.default)(eventData.target).parents('tr').fadeOut(500, function () {
-        (0, jquery_1.default)(this).remove();
-        showOrHideTfoot();
-      });
-    }
-  });
 });
+var tbody = (0, jquery_1.default)('#tbl-customers tbody');
+tbody.on('click', 'tr', function () {
+  var id = (0, jquery_1.default)(this).find('td:first-child').text();
+  var name = (0, jquery_1.default)(this).find('td:nth-child(2)').text();
+  var address = (0, jquery_1.default)(this).find('td:nth-child(3)').text();
+  (0, jquery_1.default)('#txt-id').val(id).attr('disabled', true);
+  (0, jquery_1.default)('#txt-name').val(name);
+  (0, jquery_1.default)('#txt-address').val(address);
+  (0, jquery_1.default)('#tbl-customers tbody tr').removeClass('selected');
+  (0, jquery_1.default)(this).addClass('selected');
+});
+tbody.on('click', '.trash', function (eventData) {
+  if (confirm('Are you sure to delete')) {
+    (0, jquery_1.default)(eventData.target).parents('tr').fadeOut(500, function () {
+      (0, jquery_1.default)(this).remove();
+      showOrHideTfoot();
+      (0, jquery_1.default)('#btn-clear').trigger('click');
+    });
+  }
+});
+/* Reset button event listener */
+
+(0, jquery_1.default)('#btn-clear').on('click', function () {
+  (0, jquery_1.default)('#tbl-customers tbody tr.selected').removeClass('selected');
+  (0, jquery_1.default)('#txt-id').attr('disabled', false).trigger('focus');
+});
+/* Utility functions */
 
 function existCustomer(id) {
   var result = false;
@@ -11311,11 +11321,6 @@ function showOrHideTfoot() {
   var tfoot = (0, jquery_1.default)('#tbl-customers tfoot');
   (0, jquery_1.default)('#tbl-customers tbody tr').length > 0 ? tfoot.hide() : tfoot.show();
 }
-
-(0, jquery_1.default)('#btn-clear').on('click', function () {
-  (0, jquery_1.default)('#tbl-customers tbody tr.selected').removeClass('selected');
-  (0, jquery_1.default)('#txt-id').attr('disabled', false).trigger('focus');
-});
 },{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
