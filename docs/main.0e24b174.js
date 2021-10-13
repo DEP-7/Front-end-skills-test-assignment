@@ -11228,7 +11228,7 @@ Object.defineProperty(exports, "__esModule", {
 var jquery_1 = __importDefault(require("jquery"));
 
 var pageSize = calculatePageSize();
-console.log(pageSize);
+var pages = 1;
 (0, jquery_1.default)(function () {
   (0, jquery_1.default)('#txt-id').trigger('focus');
 });
@@ -11278,6 +11278,7 @@ console.log(pageSize);
   showOrHideTfoot();
   showOrHidePagination();
   initPagination();
+  navigateToPage(pages);
   (0, jquery_1.default)('#btn-clear').trigger('click');
 });
 var tbody = (0, jquery_1.default)('#tbl-customers tbody');
@@ -11355,7 +11356,7 @@ function calculatePageSize() {
 
 function initPagination() {
   var totalRows = (0, jquery_1.default)('#tbl-customers tbody tr').length;
-  var pages = Math.ceil(totalRows / pageSize);
+  pages = Math.ceil(totalRows / pageSize);
   var paginationHtml = "\n                    <li class=\"page-item\">\n                        <a class=\"page-link\" href=\"#\">\n                            <i class=\"fas fa-backward\"></i>\n                        </a>\n                    </li>\n    ";
 
   for (var i = 0; i < pages; i++) {
@@ -11364,6 +11365,25 @@ function initPagination() {
 
   paginationHtml += "<li class=\"page-item\">\n                            <a class=\"page-link\" href=\"#\">\n                                <i class=\"fas fa-forward\"></i>\n                            </a>\n                        </li>";
   (0, jquery_1.default)('.pagination').html(paginationHtml);
+}
+
+function navigateToPage(page) {
+  (0, jquery_1.default)('.pagination .page-item').each(function (index, element) {
+    if (+(0, jquery_1.default)(element).text() === page) {
+      (0, jquery_1.default)(element).addClass('active');
+      console.log('asda');
+      return false;
+    }
+  });
+  var rows = (0, jquery_1.default)('#tbl-customers tbody tr');
+  var start = (page - 1) * pageSize;
+  rows.each(function (index, element) {
+    if (index >= start && index < start + pageSize) {
+      (0, jquery_1.default)(element).show();
+    } else {
+      (0, jquery_1.default)(element).hide();
+    }
+  });
 }
 },{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];

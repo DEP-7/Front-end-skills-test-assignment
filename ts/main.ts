@@ -2,7 +2,8 @@
 import $ from 'jquery';
 
 const pageSize = calculatePageSize();
-console.log(pageSize);
+let pages: number = 1;
+
 $(()=>{
     $('#txt-id').trigger('focus');
 });
@@ -67,6 +68,7 @@ $('#btn-save').on('click', (eventData) => {
     showOrHideTfoot();
     showOrHidePagination();
     initPagination();
+    navigateToPage(pages);
     $('#btn-clear').trigger('click');
 });
 
@@ -162,7 +164,7 @@ function calculatePageSize(){
 
 function initPagination(): void{
     const totalRows = $('#tbl-customers tbody tr').length;
-    const pages = Math.ceil(totalRows / pageSize);
+    pages = Math.ceil(totalRows / pageSize);
     let paginationHtml = `
                     <li class="page-item">
                         <a class="page-link" href="#">
@@ -182,4 +184,27 @@ function initPagination(): void{
                         </li>`
 
     $('.pagination').html(paginationHtml);
+}
+
+function navigateToPage(page: number): void {
+    $('.pagination .page-item').each((index, element) => {
+        if (+$(element).text() === page) {
+            $(element).addClass('active');
+            console.log('asda')
+            return false;
+        }
+    });
+
+    const rows = $('#tbl-customers tbody tr');
+    const start = (page - 1) * pageSize;
+
+    rows.each((index, element) => {
+        if (index >= start && index < start + pageSize) {
+            $(element).show();
+        } else {
+            $(element).hide();
+        }
+    });
+
+
 }
