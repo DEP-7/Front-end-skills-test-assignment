@@ -5,7 +5,7 @@
     "watch": "tsc --watch",
     "dev": "parcel serve --out-dir docs index.html",
     "clean": "rm -rf ./docs",
-    "build": "parcel build index.html --out-dir docs"
+    "build": "parcel build index.html --public-url ./front-end-skills-test-assignment/ --out-dir docs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
