@@ -11235,32 +11235,46 @@ var jquery_1 = __importDefault(require("jquery"));
   var txtId = (0, jquery_1.default)('#txt-id');
   var txtName = (0, jquery_1.default)('#txt-name');
   var txtAddress = (0, jquery_1.default)('#txt-address');
-  var id = txtId.val();
-  var name = txtName.val();
-  var address = txtAddress.val();
-  var valid = true; // $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
-  //
-  // if (!/[^\s]{3,}$/.test(address.trim())){
-  //     $('#txt-address').trigger('select').parent().addClass('invalid');
-  //     valid = false;
-  // }
-  //
-  // if (!/^[A-Za-z .]{3,}$/.test(name.trim())){
-  //     $('#txt-name').trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-  //     valid = false;
-  // }
-  //
-  // if (!/^C\d{3}$/.test(id.trim())){
-  //     $('#txt-id').trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-  //     valid = false;
-  // }
-  //
-  // if (!valid) return;
+  var id = txtId.val().trim();
+  var name = txtName.val().trim();
+  var address = txtAddress.val().trim();
+  var valid = true;
+  (0, jquery_1.default)('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
+
+  if (!/[^\s]{3,}$/.test(address)) {
+    txtAddress.trigger('select').parent().addClass('invalid');
+    valid = false;
+  }
+
+  if (!/^[A-Za-z .]{3,}$/.test(name)) {
+    txtName.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+    valid = false;
+  }
+
+  if (!/^C\d{3}$/.test(id)) {
+    txtId.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+    valid = false;
+  }
+
+  if (!valid) return;
+
+  if (txtId.attr('disabled')) {
+    var selectedRow = (0, jquery_1.default)('#tbl-customers tbody tr.selected');
+    selectedRow.find('td:nth-child(2)').text(name);
+    selectedRow.find('td:nth-child(3)').text(address);
+    return;
+  }
+
+  if (existCustomer(id)) {
+    alert('Customer already exist');
+    txtId.trigger('select');
+    return;
+  }
 
   var rowHtml = "\n        <tr>\n            <td>" + id + "</td>\n            <td>" + name + "</td>\n            <td>" + address + "</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
-  txtId.val('');
   showOrHideTfoot();
+  (0, jquery_1.default)('#btn-clear').trigger('click');
   (0, jquery_1.default)('#tbl-customers tbody tr').off('click').on('click', function () {
     var id = (0, jquery_1.default)(this).find('td:first-child').text();
     var name = (0, jquery_1.default)(this).find('td:nth-child(2)').text();
@@ -11282,10 +11296,26 @@ var jquery_1 = __importDefault(require("jquery"));
   });
 });
 
+function existCustomer(id) {
+  var result = false;
+  (0, jquery_1.default)('#tbl-customers tbody tr td:first-child').each(function (index, element) {
+    if ((0, jquery_1.default)(element).text() === id) {
+      result = true;
+      return false;
+    }
+  });
+  return result;
+}
+
 function showOrHideTfoot() {
   var tfoot = (0, jquery_1.default)('#tbl-customers tfoot');
   (0, jquery_1.default)('#tbl-customers tbody tr').length > 0 ? tfoot.hide() : tfoot.show();
 }
+
+(0, jquery_1.default)('#btn-clear').on('click', function () {
+  (0, jquery_1.default)('#tbl-customers tbody tr.selected').removeClass('selected');
+  (0, jquery_1.default)('#txt-id').attr('disabled', false).trigger('focus');
+});
 },{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

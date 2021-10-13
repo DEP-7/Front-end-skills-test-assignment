@@ -13,29 +13,43 @@ $('#btn-save').on('click', (eventData) => {
     const txtName = $('#txt-name');
     const txtAddress = $('#txt-address');
 
-    const id = txtId.val();
-    const name = txtName.val();
-    const address = txtAddress.val();
+    const id = txtId.val().trim();
+    const name = txtName.val().trim();
+    const address = txtAddress.val().trim();
     let valid = true;
 
-    // $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
-    //
-    // if (!/[^\s]{3,}$/.test(address.trim())){
-    //     $('#txt-address').trigger('select').parent().addClass('invalid');
-    //     valid = false;
-    // }
-    //
-    // if (!/^[A-Za-z .]{3,}$/.test(name.trim())){
-    //     $('#txt-name').trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-    //     valid = false;
-    // }
-    //
-    // if (!/^C\d{3}$/.test(id.trim())){
-    //     $('#txt-id').trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-    //     valid = false;
-    // }
-    //
-    // if (!valid) return;
+    $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
+
+    if (!/[^\s]{3,}$/.test(address)){
+        txtAddress.trigger('select').parent().addClass('invalid');
+        valid = false;
+    }
+
+    if (!/^[A-Za-z .]{3,}$/.test(name)){
+        txtName.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+        valid = false;
+    }
+
+    if (!/^C\d{3}$/.test(id)){
+        txtId.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+        valid = false;
+    }
+
+    if (!valid) return;
+
+    if (txtId.attr('disabled')) {
+        const selectedRow = $('#tbl-customers tbody tr.selected');
+
+        selectedRow.find('td:nth-child(2)').text(name);
+        selectedRow.find('td:nth-child(3)').text(address);
+        return;
+    }
+
+    if (existCustomer(id)) {
+        alert('Customer already exist');
+        txtId.trigger('select');
+        return;
+    }
 
     const rowHtml = `
         <tr>
@@ -47,8 +61,9 @@ $('#btn-save').on('click', (eventData) => {
     `;
 
     $('#tbl-customers tbody').append(rowHtml);
-    txtId.val('');
     showOrHideTfoot();
+
+    $('#btn-clear').trigger('click');
 
     $('#tbl-customers tbody tr').off('click').on('click', function () {
         const id = $(this).find('td:first-child').text();
@@ -75,8 +90,23 @@ $('#btn-save').on('click', (eventData) => {
     });
 });
 
+function existCustomer(id: string): boolean {
+    let result: boolean = false;
+    $('#tbl-customers tbody tr td:first-child').each((index, element) => {
+        if ($(element).text() === id) {
+            result = true;
+            return false;
+        }
+    });
+    return result;
+}
 
 function showOrHideTfoot(){
     const tfoot = $('#tbl-customers tfoot');
     $('#tbl-customers tbody tr').length > 0 ? tfoot.hide() : tfoot.show();
 }
+
+$('#btn-clear').on('click', ()=> {
+    $('#tbl-customers tbody tr.selected').removeClass('selected');
+    $('#txt-id').attr('disabled', false).trigger('focus');
+});
