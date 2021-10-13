@@ -1,6 +1,7 @@
 // @ts-ignore
 import $ from 'jquery';
 
+const pageSize = calculatePageSize();
 $(()=>{
     $('#txt-id').trigger('focus');
 });
@@ -19,24 +20,24 @@ $('#btn-save').on('click', (eventData) => {
     const address = txtAddress.val().trim();
     let valid = true;
 
-    $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
-
-    if (!/[^\s]{3,}$/.test(address)){
-        txtAddress.trigger('select').parent().addClass('invalid');
-        valid = false;
-    }
-
-    if (!/^[A-Za-z .]{3,}$/.test(name)){
-        txtName.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-        valid = false;
-    }
-
-    if (!/^C\d{3}$/.test(id)){
-        txtId.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-        valid = false;
-    }
-
-    if (!valid) return;
+    // $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
+    //
+    // if (!/[^\s]{3,}$/.test(address)){
+    //     txtAddress.trigger('select').parent().addClass('invalid');
+    //     valid = false;
+    // }
+    //
+    // if (!/^[A-Za-z .]{3,}$/.test(name)){
+    //     txtName.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+    //     valid = false;
+    // }
+    //
+    // if (!/^C\d{3}$/.test(id)){
+    //     txtId.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+    //     valid = false;
+    // }
+    //
+    // if (!valid) return;
 
     if (txtId.attr('disabled')) {
         const selectedRow = $('#tbl-customers tbody tr.selected');
@@ -114,4 +115,38 @@ function existCustomer(id: string): boolean {
 function showOrHideTfoot(){
     const tfoot = $('#tbl-customers tfoot');
     $('#tbl-customers tbody tr').length > 0 ? tfoot.hide() : tfoot.show();
+}
+
+function calculatePageSize(){
+    const tbl = $('#tbl-customers');
+    const tfoot = $('#tbl-customers tfoot');
+    const rowHtml = `
+        <tr>
+            <td>C001</td>
+            <td>Dhanushka</td>
+            <td>Matara</td>
+            <td><div class="trash"></div></td>
+        </tr>
+    `;
+
+    const nav = $('nav');
+    nav.removeClass('d-none');
+
+    const top = $(window).height() - ($('footer').height() + nav.outerHeight(true));
+
+    nav.addClass('d-none');
+    tfoot.hide();
+    while (true) {
+
+        tbl.find('tbody').append(rowHtml);
+        const bottom = tbl.outerHeight(true) + tbl.offset().top;
+
+        if (bottom >= top) {
+            const pageSize = tbl.find('tbody tr').length - 1;
+
+            tbl.find('tbody tr').remove();
+            tfoot.show();
+            return pageSize;
+        }
+    }
 }

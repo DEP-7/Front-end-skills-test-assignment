@@ -11227,6 +11227,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var jquery_1 = __importDefault(require("jquery"));
 
+var pageSize = calculatePageSize();
 (0, jquery_1.default)(function () {
   (0, jquery_1.default)('#txt-id').trigger('focus');
 });
@@ -11240,25 +11241,24 @@ var jquery_1 = __importDefault(require("jquery"));
   var id = txtId.val().trim();
   var name = txtName.val().trim();
   var address = txtAddress.val().trim();
-  var valid = true;
-  (0, jquery_1.default)('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
-
-  if (!/[^\s]{3,}$/.test(address)) {
-    txtAddress.trigger('select').parent().addClass('invalid');
-    valid = false;
-  }
-
-  if (!/^[A-Za-z .]{3,}$/.test(name)) {
-    txtName.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-    valid = false;
-  }
-
-  if (!/^C\d{3}$/.test(id)) {
-    txtId.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
-    valid = false;
-  }
-
-  if (!valid) return;
+  var valid = true; // $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
+  //
+  // if (!/[^\s]{3,}$/.test(address)){
+  //     txtAddress.trigger('select').parent().addClass('invalid');
+  //     valid = false;
+  // }
+  //
+  // if (!/^[A-Za-z .]{3,}$/.test(name)){
+  //     txtName.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+  //     valid = false;
+  // }
+  //
+  // if (!/^C\d{3}$/.test(id)){
+  //     txtId.trigger('select').parent().addClass('invalid').children('small').removeClass('text-muted');
+  //     valid = false;
+  // }
+  //
+  // if (!valid) return;
 
   if (txtId.attr('disabled')) {
     var selectedRow = (0, jquery_1.default)('#tbl-customers tbody tr.selected');
@@ -11321,6 +11321,29 @@ function showOrHideTfoot() {
   var tfoot = (0, jquery_1.default)('#tbl-customers tfoot');
   (0, jquery_1.default)('#tbl-customers tbody tr').length > 0 ? tfoot.hide() : tfoot.show();
 }
+
+function calculatePageSize() {
+  var tbl = (0, jquery_1.default)('#tbl-customers');
+  var tfoot = (0, jquery_1.default)('#tbl-customers tfoot');
+  var rowHtml = "\n        <tr>\n            <td>C001</td>\n            <td>Dhanushka</td>\n            <td>Matara</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
+  var nav = (0, jquery_1.default)('nav');
+  nav.removeClass('d-none');
+  var top = (0, jquery_1.default)(window).height() - ((0, jquery_1.default)('footer').height() + nav.outerHeight(true));
+  nav.addClass('d-none');
+  tfoot.hide();
+
+  while (true) {
+    tbl.find('tbody').append(rowHtml);
+    var bottom = tbl.outerHeight(true) + tbl.offset().top;
+
+    if (bottom >= top) {
+      var pageSize_1 = tbl.find('tbody tr').length - 1;
+      tbl.find('tbody tr').remove();
+      tfoot.show();
+      return pageSize_1;
+    }
+  }
+}
 },{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -11349,7 +11372,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44761" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38197" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
