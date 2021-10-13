@@ -64,7 +64,7 @@ $('#btn-save').on('click', (eventData) => {
 
     $('#tbl-customers tbody').append(rowHtml);
     showOrHideTfoot();
-
+    showOrHidePagination();
     $('#btn-clear').trigger('click');
 });
 
@@ -90,6 +90,7 @@ tbody.on('click', '.trash', (eventData) => {
             $(this).remove();
             showOrHideTfoot();
             $('#btn-clear').trigger('click');
+            showOrHidePagination();
         });
     }
 });
@@ -115,6 +116,11 @@ function existCustomer(id: string): boolean {
 function showOrHideTfoot(){
     const tfoot = $('#tbl-customers tfoot');
     $('#tbl-customers tbody tr').length > 0 ? tfoot.hide() : tfoot.show();
+}
+
+function showOrHidePagination(){
+    const nav = $('nav');
+    $('#tbl-customers tbody tr').length > pageSize ? nav.removeClass('d-none') : nav.addClass('d-none');
 }
 
 function calculatePageSize(){

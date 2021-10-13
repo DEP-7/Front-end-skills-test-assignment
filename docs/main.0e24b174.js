@@ -11276,6 +11276,7 @@ var pageSize = calculatePageSize();
   var rowHtml = "\n        <tr>\n            <td>" + id + "</td>\n            <td>" + name + "</td>\n            <td>" + address + "</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
   showOrHideTfoot();
+  showOrHidePagination();
   (0, jquery_1.default)('#btn-clear').trigger('click');
 });
 var tbody = (0, jquery_1.default)('#tbl-customers tbody');
@@ -11295,6 +11296,7 @@ tbody.on('click', '.trash', function (eventData) {
       (0, jquery_1.default)(this).remove();
       showOrHideTfoot();
       (0, jquery_1.default)('#btn-clear').trigger('click');
+      showOrHidePagination();
     });
   }
 });
@@ -11320,6 +11322,11 @@ function existCustomer(id) {
 function showOrHideTfoot() {
   var tfoot = (0, jquery_1.default)('#tbl-customers tfoot');
   (0, jquery_1.default)('#tbl-customers tbody tr').length > 0 ? tfoot.hide() : tfoot.show();
+}
+
+function showOrHidePagination() {
+  var nav = (0, jquery_1.default)('nav');
+  (0, jquery_1.default)('#tbl-customers tbody tr').length > pageSize ? nav.removeClass('d-none') : nav.addClass('d-none');
 }
 
 function calculatePageSize() {
