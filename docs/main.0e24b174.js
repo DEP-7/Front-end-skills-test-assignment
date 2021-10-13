@@ -11229,6 +11229,7 @@ var jquery_1 = __importDefault(require("jquery"));
 
 var pageSize = calculatePageSize();
 var pages = 1;
+var selectedPage = 1;
 (0, jquery_1.default)(function () {
   (0, jquery_1.default)('#txt-id').trigger('focus');
 });
@@ -11277,11 +11278,17 @@ var pages = 1;
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
   showOrHideTfoot();
   showOrHidePagination();
-  initPagination();
+
+  if (((0, jquery_1.default)('#tbl-customers tbody tr').length - 1) % pages === 0) {
+    initPagination();
+  }
+
   navigateToPage(pages);
   (0, jquery_1.default)('#btn-clear').trigger('click');
 });
 var tbody = (0, jquery_1.default)('#tbl-customers tbody');
+/* Table row selection event listener */
+
 tbody.on('click', 'tr', function () {
   var id = (0, jquery_1.default)(this).find('td:first-child').text();
   var name = (0, jquery_1.default)(this).find('td:nth-child(2)').text();
@@ -11292,13 +11299,25 @@ tbody.on('click', 'tr', function () {
   (0, jquery_1.default)('#tbl-customers tbody tr').removeClass('selected');
   (0, jquery_1.default)(this).addClass('selected');
 });
+/* Table row deletion event listener */
+
 tbody.on('click', '.trash', function (eventData) {
   if (confirm('Are you sure to delete')) {
     (0, jquery_1.default)(eventData.target).parents('tr').fadeOut(500, function () {
       (0, jquery_1.default)(this).remove();
       showOrHideTfoot();
-      (0, jquery_1.default)('#btn-clear').trigger('click');
       showOrHidePagination();
+
+      if ((0, jquery_1.default)('#tbl-customers tbody tr').length % pages === 0) {
+        initPagination();
+
+        if (selectedPage >= pages) {
+          selectedPage = pages;
+        }
+      }
+
+      navigateToPage(selectedPage);
+      (0, jquery_1.default)('#btn-clear').trigger('click');
     });
   }
 });
@@ -11365,16 +11384,35 @@ function initPagination() {
 
   paginationHtml += "<li class=\"page-item\">\n                            <a class=\"page-link\" href=\"#\">\n                                <i class=\"fas fa-forward\"></i>\n                            </a>\n                        </li>";
   (0, jquery_1.default)('.pagination').html(paginationHtml);
+  (0, jquery_1.default)('.page-item:first-child').on('click', function () {
+    navigateToPage(selectedPage - 1);
+  });
+  (0, jquery_1.default)('.page-item:last-child').on('click', function () {
+    navigateToPage(selectedPage + 1);
+  });
+  (0, jquery_1.default)('.page-item:not(.page-item:first-child, .page-item:last-child)').on('click', function () {
+    navigateToPage(+(0, jquery_1.default)(this).text());
+  });
 }
 
 function navigateToPage(page) {
+  if (page <= 0 || page > pages) return;
+  selectedPage = page;
+  (0, jquery_1.default)('.pagination .page-item.active').removeClass('active');
   (0, jquery_1.default)('.pagination .page-item').each(function (index, element) {
     if (+(0, jquery_1.default)(element).text() === page) {
       (0, jquery_1.default)(element).addClass('active');
-      console.log('asda');
       return false;
     }
   });
+  (0, jquery_1.default)('.pagination .page-item:last-child, .pagination .page-item:first-child').removeClass('disabled');
+
+  if (page === pages) {
+    (0, jquery_1.default)('.pagination .page-item:last-child').addClass('disabled');
+  } else if (page === 1) {
+    (0, jquery_1.default)('.pagination .page-item:first-child').addClass('disabled');
+  }
+
   var rows = (0, jquery_1.default)('#tbl-customers tbody tr');
   var start = (page - 1) * pageSize;
   rows.each(function (index, element) {
